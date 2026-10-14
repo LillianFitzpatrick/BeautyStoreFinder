@@ -1,11 +1,14 @@
 package org.setu.beautystorefinder
 
+
+
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+
 import org.setu.beautystorefinder.models.BeautyStoreModel
 
 class AddEditActivity : AppCompatActivity() {
@@ -20,75 +23,54 @@ class AddEditActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        createUserInterface()
+        setContentView(R.layout.activity_add_edit)
 
-        editingId = intent.getLongExtra("id", -1L)
+        titleInput =
+            findViewById(R.id.titleInput)
 
-        if (editingId != -1L) {
+        descriptionInput =
+            findViewById(R.id.descriptionInput)
+
+        xInput =
+            findViewById(R.id.xInput)
+
+        yInput =
+            findViewById(R.id.yInput)
+
+        val saveButton =
+            findViewById<Button>(R.id.saveButton)
+
+        val cancelButton =
+            findViewById<Button>(R.id.cancelButton)
+
+        editingId =
+            intent.getLongExtra("id", -1L)
+                .takeIf { it != -1L }
+
+        if (editingId != null) {
+
+            findViewById<TextView>(R.id.formTitle)
+                .text = "Edit Store"
+
             loadExistingStore(editingId!!)
         }
-    }
 
-    private fun createUserInterface() {
-
-        val root = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(32, 320, 32, 32)
+        saveButton.setOnClickListener {
+            saveStore()
         }
 
-        titleInput = EditText(this).apply {
-            hint = "Title"
+        cancelButton.setOnClickListener {
+            finish()
         }
-
-        descriptionInput = EditText(this).apply {
-            hint = "Description"
-        }
-
-        xInput = EditText(this).apply {
-            hint = "X coordinate"
-            inputType =
-                android.text.InputType.TYPE_CLASS_NUMBER or
-                        android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
-        }
-
-        yInput = EditText(this).apply {
-            hint = "Y coordinate"
-            inputType =
-                android.text.InputType.TYPE_CLASS_NUMBER or
-                        android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
-        }
-
-        val saveButton = Button(this).apply {
-            text = "Save"
-
-            setOnClickListener {
-                saveStore()
-            }
-        }
-
-        val cancelButton = Button(this).apply {
-            text = "Cancel"
-
-            setOnClickListener {
-                finish()
-            }
-        }
-
-        root.addView(titleInput)
-        root.addView(descriptionInput)
-        root.addView(xInput)
-        root.addView(yInput)
-        root.addView(saveButton)
-        root.addView(cancelButton)
-
-        setContentView(root)
     }
 
     private fun loadExistingStore(id: Long) {
 
-        val store = AppData.beautyStores.findOne(id)
+        val store =
+            AppData.beautyStores.findOne(id)
 
         if (store == null) {
+
             Toast.makeText(
                 this,
                 "Store not found",
@@ -107,38 +89,43 @@ class AddEditActivity : AppCompatActivity() {
 
     private fun saveStore() {
 
-        val title = titleInput.text.toString().trim()
-        val description = descriptionInput.text.toString().trim()
+        val title =
+            titleInput.text.toString().trim()
+
+        val description =
+            descriptionInput.text.toString().trim()
 
         if (title.isEmpty()) {
             titleInput.error = "Title is required"
             return
         }
 
-        val x = xInput.text.toString().toDoubleOrNull()
+        val x =
+            xInput.text.toString().toDoubleOrNull()
 
         if (x == null) {
             xInput.error = "Enter a valid number"
             return
         }
 
-        val y = yInput.text.toString().toDoubleOrNull()
+        val y =
+            yInput.text.toString().toDoubleOrNull()
 
         if (y == null) {
             yInput.error = "Enter a valid number"
             return
         }
 
-        if (editingId == null || editingId == -1L) {
+        if (editingId == null) {
 
-            val mark = BeautyStoreModel(
+            val store = BeautyStoreModel(
                 title = title,
                 description = description,
                 x = x,
                 y = y
             )
 
-            AppData.beautyStores.create(mark)
+            AppData.beautyStores.create(store)
 
             Toast.makeText(
                 this,
@@ -148,7 +135,7 @@ class AddEditActivity : AppCompatActivity() {
 
         } else {
 
-            val mark = BeautyStoreModel(
+            val store = BeautyStoreModel(
                 id = editingId!!,
                 title = title,
                 description = description,
@@ -156,7 +143,7 @@ class AddEditActivity : AppCompatActivity() {
                 y = y
             )
 
-            AppData.beautyStores.update(mark)
+            AppData.beautyStores.update(store)
 
             Toast.makeText(
                 this,
