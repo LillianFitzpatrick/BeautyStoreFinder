@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:background="@color/white"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -9,6 +11,7 @@
         android:id="@+id/titleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="serif"
         android:text="Store Name"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -27,15 +30,27 @@
         android:text="X: 10.5 Y: 20.3"
         android:textSize="14sp" />
 
-    <Button
-        android:id="@+id/editButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Edit" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/deleteButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete" />
+        <Button
+            android:id="@+id/editButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/rose_pink"
+            android:text="Edit"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="@color/soft_pink"
+            android:text="Delete"
+            android:textColor="@color/dark_charcoal" />
+    </LinearLayout>
+
 </LinearLayout>

@@ -5,15 +5,20 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/cream"
     android:orientation="vertical"
+    android:padding="24dp"
     tools:context=".StoreListActivity">
 
     <TextView
         android:id="@+id/storesTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Beauty Stores"
-        android:textSize="28sp"
+        android:layout_margin="32dp"
+        android:fontFamily="serif"
+        android:text="My Beauty Stores"
+        android:textColor="@color/dark_charcoal"
+        android:textSize="36sp"
         android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -26,6 +31,9 @@
         android:id="@+id/returnButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Back To Menu" />
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/rose_pink"
+        android:text="← Back To Menu"
+        android:textColor="@color/white" />
 
 </LinearLayout>
