@@ -2,4 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="cream">#FFF4F5</color>
+    <color name="blush_pink">#F8DADD</color>
+    <color name="soft_pink">#ECA6B2</color>
+    <color name="rose_pink">#D56B86</color>
+    <color name="dark_charcoal">#30252C</color>
+    <color name="card_white">#FFFAFB</color>
 </resources>

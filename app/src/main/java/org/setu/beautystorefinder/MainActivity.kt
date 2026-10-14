@@ -7,6 +7,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.widget.Button
 import android.content.Intent
+import androidx.cardview.widget.CardView
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,19 +19,19 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val viewMarksButton =
-            findViewById<Button>(R.id.viewStoresButton)
+        val viewStoresCard =
+            findViewById<CardView>(R.id.viewStoresCard)
 
-        val addMarkButton =
-            findViewById<Button>(R.id.addStoreButton)
+        val addStoreCard =
+            findViewById<CardView>(R.id.addStoreCard)
 
-        viewMarksButton.setOnClickListener {
+        viewStoresCard.setOnClickListener {
             startActivity(
                 Intent(this, StoreListActivity::class.java)
             )
         }
 
-        addMarkButton.setOnClickListener {
+        addStoreCard.setOnClickListener {
             startActivity(
                 Intent(this, AddEditActivity::class.java)
             )
