@@ -8,11 +8,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.setu.beautystorefinder.models.BeautyStoreModel
+import android.widget.SearchView
+
 
 class StoreListActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: BeautyStoreAdapter
+
+    private lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +43,23 @@ class StoreListActivity : AppCompatActivity() {
 
         recyclerView.adapter = adapter
 
+        //Search listener
+        searchView = findViewById(R.id.storeSearchView)
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterStores(newText.orEmpty())
+                return true
+            }
+        })
+
+
+
         val returnButton =
             findViewById<Button>(R.id.returnButton)
 
@@ -53,11 +74,14 @@ class StoreListActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (::adapter.isInitialized) {
+        if (::adapter.isInitialized  && ::searchView.isInitialized) {
 
-            adapter.updateStores(
-                AppData.beautyStores.findAll()
-            )
+            //adapter.updateStores(
+            //    AppData.beautyStores.findAll()
+           // )
+
+            // Keeps the search updated after editing or deleting
+            filterStores(searchView.query.toString())
         }
     }
 
@@ -75,8 +99,19 @@ class StoreListActivity : AppCompatActivity() {
 
         AppData.beautyStores.delete(store.id)
 
-        adapter.updateStores(
-            AppData.beautyStores.findAll()
-        )
+        //adapter.updateStores(
+        //    AppData.beautyStores.findAll()
+       // )
+
+        filterStores(searchView.query.toString())
+    }
+
+    // search by Store Name OR Brand Name
+    private fun filterStores(query: String){
+        val filteredStores = AppData.beautyStores.findAll().filter {
+            it.title.contains(query, ignoreCase = true) ||
+                    it.brands.contains(query, ignoreCase = true)
+        }
+        adapter.updateStores(filteredStores)
     }
 }
