@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cream">
+    android:background="@color/cream"
+    android:backgroundTint="@color/cream">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,6 +46,24 @@
             android:inputType="textMultiLine"
             android:textColor="@color/dark_charcoal"
             android:textColorHint="@color/soft_pink" />
+
+        <TextView
+            android:id="@+id/categoryLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="0dp"
+            android:text="Makeup Category"
+            android:textColor="@color/rose_pink"
+            android:textSize="14sp"
+            android:textStyle="normal" />
+
+        <Spinner
+            android:id="@+id/categorySpinner"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/rose_pink" />
 
         <EditText
             android:id="@+id/xInput"

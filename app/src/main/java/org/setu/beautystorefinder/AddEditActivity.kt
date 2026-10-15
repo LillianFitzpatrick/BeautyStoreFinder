@@ -3,11 +3,14 @@ package org.setu.beautystorefinder
 
 
 import android.os.Bundle
+import android.widget.AbsSpinner
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import android.widget.Spinner
+import android.widget.ArrayAdapter
 
 import org.setu.beautystorefinder.models.BeautyStoreModel
 
@@ -17,6 +20,8 @@ class AddEditActivity : AppCompatActivity() {
     private lateinit var descriptionInput: EditText
     private lateinit var xInput: EditText
     private lateinit var yInput: EditText
+
+    private lateinit var categorySpinner: Spinner
 
     private var editingId: Long? = null
 
@@ -36,6 +41,18 @@ class AddEditActivity : AppCompatActivity() {
 
         yInput =
             findViewById(R.id.yInput)
+
+        categorySpinner = findViewById(R.id.categorySpinner)
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.makeup_categories,
+            android.R.layout.simple_spinner_item
+        ).also {adapter ->
+            adapter.setDropDownViewResource(
+                android.R.layout.simple_spinner_dropdown_item
+            )
+            categorySpinner.adapter = adapter
+        }
 
         val saveButton =
             findViewById<Button>(R.id.saveButton)
@@ -85,6 +102,15 @@ class AddEditActivity : AppCompatActivity() {
         descriptionInput.setText(store.description)
         xInput.setText(store.x.toString())
         yInput.setText(store.y.toString())
+
+        val categories = resources.getStringArray(R.array.makeup_categories)
+
+        val categoryPosition = categories.indexOf(store.category)
+
+        if (categoryPosition >= 0) {
+            categorySpinner.setSelection(categoryPosition)
+        }
+
     }
 
     private fun saveStore() {
@@ -94,6 +120,7 @@ class AddEditActivity : AppCompatActivity() {
 
         val description =
             descriptionInput.text.toString().trim()
+        val category = categorySpinner.selectedItem.toString()
 
         if (title.isEmpty()) {
             titleInput.error = "Title is required"
@@ -122,7 +149,8 @@ class AddEditActivity : AppCompatActivity() {
                 title = title,
                 description = description,
                 x = x,
-                y = y
+                y = y,
+                category = category
             )
 
             AppData.beautyStores.create(store)
@@ -140,7 +168,8 @@ class AddEditActivity : AppCompatActivity() {
                 title = title,
                 description = description,
                 x = x,
-                y = y
+                y = y,
+                category = category
             )
 
             AppData.beautyStores.update(store)

@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">BeautyStoreFinder</string>
+
+    <string-array name="makeup_categories">
+        <item>Drugstore</item>
+        <item>High-End / Luxury</item>
+        <item>Both</item>
+        <item>Skincare Only</item>
+    </string-array>
 </resources>
