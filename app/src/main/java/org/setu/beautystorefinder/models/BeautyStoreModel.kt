@@ -12,5 +12,8 @@ data class BeautyStoreModel(
     var description: String = "",
     var x: Double = 0.0,
     var y: Double = 0.0,
-    var category: String = "Drugstore"
+    var category: String = "Drugstore",
+    var brands: String= "",
+    var address: String= "",
+    var website: String= ""
 )

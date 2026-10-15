@@ -2,6 +2,7 @@ package org.setu.beautystorefinder
 
 
 
+import android.adservices.ondevicepersonalization.ExecuteInput
 import android.os.Bundle
 import android.widget.AbsSpinner
 import android.widget.Button
@@ -23,6 +24,10 @@ class AddEditActivity : AppCompatActivity() {
 
     private lateinit var categorySpinner: Spinner
 
+    private lateinit var brandsInput: EditText
+    private lateinit var addressInput: EditText
+    private lateinit var websiteInput: EditText
+
     private var editingId: Long? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +46,10 @@ class AddEditActivity : AppCompatActivity() {
 
         yInput =
             findViewById(R.id.yInput)
+
+        brandsInput = findViewById(R.id.brandsInput)
+        addressInput = findViewById(R.id.addressInput)
+        websiteInput = findViewById(R.id.websiteInput)
 
         categorySpinner = findViewById(R.id.categorySpinner)
         ArrayAdapter.createFromResource(
@@ -102,6 +111,9 @@ class AddEditActivity : AppCompatActivity() {
         descriptionInput.setText(store.description)
         xInput.setText(store.x.toString())
         yInput.setText(store.y.toString())
+        brandsInput.setText(store.brands)
+        addressInput.setText(store.address)
+        websiteInput.setText(store.website)
 
         val categories = resources.getStringArray(R.array.makeup_categories)
 
@@ -120,7 +132,21 @@ class AddEditActivity : AppCompatActivity() {
 
         val description =
             descriptionInput.text.toString().trim()
-        val category = categorySpinner.selectedItem.toString()
+
+        val category =
+            categorySpinner.selectedItem.toString()
+
+        val brands =
+            brandsInput.text.toString().trim()
+
+        val address =
+            addressInput.text.toString().trim()
+
+        val website =
+            websiteInput.text.toString().trim()
+
+
+
 
         if (title.isEmpty()) {
             titleInput.error = "Title is required"
@@ -150,7 +176,10 @@ class AddEditActivity : AppCompatActivity() {
                 description = description,
                 x = x,
                 y = y,
-                category = category
+                category = category,
+                brands = brands,
+                address = address,
+                website = website
             )
 
             AppData.beautyStores.create(store)
@@ -169,7 +198,10 @@ class AddEditActivity : AppCompatActivity() {
                 description = description,
                 x = x,
                 y = y,
-                category = category
+                category = category,
+                brands = brands,
+                address = address,
+                website = website
             )
 
             AppData.beautyStores.update(store)
