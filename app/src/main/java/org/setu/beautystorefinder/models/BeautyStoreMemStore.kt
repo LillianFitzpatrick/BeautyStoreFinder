@@ -22,6 +22,11 @@ class BeautyStoreMemStore {
             foundStore.x = beautyStore.x
             foundStore.y = beautyStore.y
             foundStore.category = beautyStore.category
+            foundStore.brands = beautyStore.brands
+            foundStore.address = beautyStore.address
+            foundStore.website = beautyStore.website
+
+
             true
         } else {
             false
