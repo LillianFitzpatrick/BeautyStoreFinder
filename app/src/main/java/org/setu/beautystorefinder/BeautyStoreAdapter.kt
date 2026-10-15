@@ -61,7 +61,8 @@ class BeautyStoreAdapter(
             "${store.id}: ${store.title}"
 
         holder.descriptionText.text =
-            store.description
+            //store.description
+            "${store.description}\nCategory: ${store.category}"
 
         holder.coordinatesText.text =
             "X: ${store.x}, Y: ${store.y}"

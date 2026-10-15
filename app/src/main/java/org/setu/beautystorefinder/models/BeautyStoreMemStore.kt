@@ -21,6 +21,7 @@ class BeautyStoreMemStore {
             foundStore.description = beautyStore.description
             foundStore.x = beautyStore.x
             foundStore.y = beautyStore.y
+            foundStore.category = beautyStore.category
             true
         } else {
             false
