@@ -58,7 +58,9 @@ class BeautyStoreAdapter(
         val store = stores[position]
 
         holder.titleText.text =
-            "${store.id}: ${store.title}"
+            //"${store.id}: ${store.title}"
+            // wanted to change this to not display numbers alongside the stores, for aesthetics
+            store.title
 
         holder.descriptionText.text =
             //store.description
