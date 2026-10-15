@@ -26,6 +26,7 @@ class StoreListActivity : AppCompatActivity() {
         recyclerView =
             findViewById(R.id.storesRecyclerView)
 
+        // Display saved stores and handle Edit/Delete Button actions
         adapter = BeautyStoreAdapter(
             stores = AppData.beautyStores.findAll(),
 
@@ -43,7 +44,7 @@ class StoreListActivity : AppCompatActivity() {
 
         recyclerView.adapter = adapter
 
-        //Search listener
+        //Search - Updated the displayed stores as the user types in the search bar
         searchView = findViewById(R.id.storeSearchView)
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -85,6 +86,7 @@ class StoreListActivity : AppCompatActivity() {
         }
     }
 
+    // Passes the selected store ID to the Add/Edit Screen
     private fun editStore(store: BeautyStoreModel) {
 
         val intent =
@@ -106,7 +108,7 @@ class StoreListActivity : AppCompatActivity() {
         filterStores(searchView.query.toString())
     }
 
-    // search by Store Name OR Brand Name
+    // Filter stores by name or (||) beauty brand, ignoring uppercase/lowercase
     private fun filterStores(query: String){
         val filteredStores = AppData.beautyStores.findAll().filter {
             it.title.contains(query, ignoreCase = true) ||

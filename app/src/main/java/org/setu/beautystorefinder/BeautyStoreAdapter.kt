@@ -10,12 +10,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.setu.beautystorefinder.models.BeautyStoreModel
 
+// Displays beauty stores in the RecyclerView and handles Edit/Delete Actions
 class BeautyStoreAdapter(
     private var stores: List<BeautyStoreModel>,
     private val onEdit: (BeautyStoreModel) -> Unit,
     private val onDelete: (BeautyStoreModel) -> Unit
 ) : RecyclerView.Adapter<BeautyStoreAdapter.StoreViewHolder>() {
 
+    // Holds references to the UI elements for each store card
     class StoreViewHolder (itemView: View) :
         RecyclerView.ViewHolder(itemView) {
 
@@ -35,6 +37,7 @@ class BeautyStoreAdapter(
             itemView.findViewById(R.id.deleteButton)
     }
 
+    // Creates a new store card using the item_beauty_store layout
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -50,6 +53,7 @@ class BeautyStoreAdapter(
         return StoreViewHolder(view)
     }
 
+
     override fun onBindViewHolder(
         holder: StoreViewHolder,
         position: Int
@@ -62,6 +66,7 @@ class BeautyStoreAdapter(
             // wanted to change this to not display numbers alongside the stores, for aesthetics
             store.title
 
+        // Displays the selected store's details in its card
         holder.descriptionText.text =
             //store.description
             "${store.description}\n" +
@@ -89,6 +94,7 @@ class BeautyStoreAdapter(
         return stores.size
     }
 
+    // Refreshes the RecyclerView when the search results change
     fun updateStores(newStores: List<BeautyStoreModel>) {
         stores = newStores
         notifyDataSetChanged()

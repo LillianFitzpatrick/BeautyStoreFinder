@@ -22,6 +22,7 @@
             android:textSize="36sp"
             android:textStyle="bold" />
 
+        <!-- Input fields for the store name, description and additional details -->
         <EditText
             android:id="@+id/titleInput"
             android:layout_width="match_parent"
@@ -87,6 +88,7 @@
             android:textColorHint="@color/soft_pink" />
 
 
+        <!-- Dropdown for selecting the beauty store category -->
         <TextView
             android:id="@+id/categoryLabel"
             android:layout_width="match_parent"
@@ -105,6 +107,7 @@
             android:layout_marginBottom="16dp"
             android:backgroundTint="@color/rose_pink" />
 
+        <!-- Numeric inputs for the store's X and Y coordinates -->
         <EditText
             android:id="@+id/xInput"
             android:layout_width="match_parent"
@@ -129,6 +132,7 @@
             android:textColor="@color/dark_charcoal"
             android:textColorHint="@color/soft_pink" />
 
+        <!-- Buttons for saving changes or cancelling the form -->
         <Button
             android:id="@+id/saveButton"
             android:layout_width="match_parent"
