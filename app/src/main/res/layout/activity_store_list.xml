@@ -21,6 +21,7 @@
         android:textSize="36sp"
         android:textStyle="bold" />
 
+    <!-- Search bar for filtering stores by name or beauty brand -->
     <SearchView
         android:id="@+id/storeSearchView"
         android:layout_width="match_parent"
@@ -29,12 +30,14 @@
         android:iconifiedByDefault="false"
         android:queryHint="Search stores or brands..."/>
 
+    <!-- Displays the list of saved beauty stores -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/storesRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
+    <!-- Navigation button to return to the home menu -->
     <Button
         android:id="@+id/returnButton"
         android:layout_width="match_parent"

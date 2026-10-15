@@ -3,7 +3,7 @@ package org.setu.beautystorefinder.models
 
 
 /**
- * Data class representing a single BeautyStoreModel item.
+ * Data class representing a beauty store and stores its details.
  * Kotlin automatically generates toString(), equals(), hashCode(), and copy().
  */
 data class BeautyStoreModel(

@@ -2,9 +2,9 @@ package org.setu.beautystorefinder
 
 
 
-import android.adservices.ondevicepersonalization.ExecuteInput
+
 import android.os.Bundle
-import android.widget.AbsSpinner
+
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -22,6 +22,7 @@ class AddEditActivity : AppCompatActivity() {
     private lateinit var xInput: EditText
     private lateinit var yInput: EditText
 
+    // spinner used for dropdown menu
     private lateinit var categorySpinner: Spinner
 
     private lateinit var brandsInput: EditText
@@ -51,6 +52,8 @@ class AddEditActivity : AppCompatActivity() {
         addressInput = findViewById(R.id.addressInput)
         websiteInput = findViewById(R.id.websiteInput)
 
+        // Populates the category dropdown using the options in strings.xml
+
         categorySpinner = findViewById(R.id.categorySpinner)
         ArrayAdapter.createFromResource(
             this,
@@ -69,6 +72,7 @@ class AddEditActivity : AppCompatActivity() {
         val cancelButton =
             findViewById<Button>(R.id.cancelButton)
 
+        // Checks if a store ID was passed to determine whether we are editing
         editingId =
             intent.getLongExtra("id", -1L)
                 .takeIf { it != -1L }
@@ -90,6 +94,7 @@ class AddEditActivity : AppCompatActivity() {
         }
     }
 
+    // Load the selected store's details into the form for editing
     private fun loadExistingStore(id: Long) {
 
         val store =
@@ -125,6 +130,7 @@ class AddEditActivity : AppCompatActivity() {
 
     }
 
+
     private fun saveStore() {
 
         val title =
@@ -147,6 +153,7 @@ class AddEditActivity : AppCompatActivity() {
 
 
 
+        //Validate the required store name and coordinate inputs before saving
 
         if (title.isEmpty()) {
             titleInput.error = "Title is required"
@@ -169,6 +176,7 @@ class AddEditActivity : AppCompatActivity() {
             return
         }
 
+        // Create a new store or update the existing store
         if (editingId == null) {
 
             val store = BeautyStoreModel(
