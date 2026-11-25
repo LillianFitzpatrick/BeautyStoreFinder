@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Spinner
 import android.widget.ArrayAdapter
+import timber.log.Timber
 
 import org.setu.beautystorefinder.models.BeautyStoreModel
 
@@ -191,6 +192,7 @@ class AddEditActivity : AppCompatActivity() {
             )
 
             AppData.beautyStores.create(store)
+            Timber.d("Created beauty store id=${store.id}, title=${store.title}")
 
             Toast.makeText(
                 this,
@@ -213,6 +215,7 @@ class AddEditActivity : AppCompatActivity() {
             )
 
             AppData.beautyStores.update(store)
+            Timber.d("Updated beauty store id=${store.id}, title=${store.title}")
 
             Toast.makeText(
                 this,

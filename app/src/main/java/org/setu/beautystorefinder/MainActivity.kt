@@ -8,10 +8,14 @@ import androidx.core.view.WindowInsetsCompat
 // import android.widget.Button unused, went for CardView option here instead for aesthetics
 import android.content.Intent
 import androidx.cardview.widget.CardView
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Timber.plant(Timber.DebugTree())
+
         enableEdgeToEdge()
         setContentView(R.layout.activity_menu)
         // Adjusts screen padding to prevent content overlapping the system bars

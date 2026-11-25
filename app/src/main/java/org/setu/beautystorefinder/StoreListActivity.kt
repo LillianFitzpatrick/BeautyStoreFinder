@@ -9,7 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.setu.beautystorefinder.models.BeautyStoreModel
 import android.widget.SearchView
-
+import androidx.appcompat.app.AlertDialog
+import timber.log.Timber
 
 class StoreListActivity : AppCompatActivity() {
 
@@ -26,18 +27,24 @@ class StoreListActivity : AppCompatActivity() {
         recyclerView =
             findViewById(R.id.storesRecyclerView)
 
-        // Display saved stores and handle Edit/Delete Button actions
+
+        // Display saved stores and handle item click/long press actions
         adapter = BeautyStoreAdapter(
             stores = AppData.beautyStores.findAll(),
 
-            onEdit = { store ->
-                editStore(store)
-            },
+            listener = object : OnBeautyStoreListener {
 
-            onDelete = { store ->
-                deleteStore(store)
+                override fun onBeautyStoreClick(store: BeautyStoreModel) {
+                    editStore(store)
+                }
+
+                override fun onBeautyStoreLongClick(store: BeautyStoreModel): Boolean {
+                    deleteStore(store)
+                    return true
+                }
             }
         )
+
 
         recyclerView.layoutManager =
             LinearLayoutManager(this)
@@ -89,6 +96,10 @@ class StoreListActivity : AppCompatActivity() {
     // Passes the selected store ID to the Add/Edit Screen
     private fun editStore(store: BeautyStoreModel) {
 
+        Timber.d("Editing beauty store id=${store.id}, title=${store.title}")
+
+
+
         val intent =
             Intent(this, AddEditActivity::class.java)
 
@@ -99,13 +110,21 @@ class StoreListActivity : AppCompatActivity() {
 
     private fun deleteStore(store: BeautyStoreModel) {
 
-        AppData.beautyStores.delete(store.id)
+        // https://developer.android.com/develop/ui/views/components/dialogs
+        // https://developer.android.com/reference/androidx/appcompat/app/AlertDialog.Builder
 
-        //adapter.updateStores(
-        //    AppData.beautyStores.findAll()
-       // )
+        AlertDialog.Builder(this)
+            .setTitle("Delete Beauty Store")
+            .setMessage("Are you sure you want to delete ${store.title}?")
+            .setPositiveButton("Delete"){dialog, which ->
 
-        filterStores(searchView.query.toString())
+                AppData.beautyStores.delete(store.id)
+                Timber.d("Deleted beauty store id=${store.id}, title=${store.title}")
+                filterStores(searchView.query.toString())
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+
     }
 
     // Filter stores by name or (||) beauty brand, ignoring uppercase/lowercase
