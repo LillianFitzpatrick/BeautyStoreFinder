@@ -17,6 +17,8 @@ class BeautyStoreMemStore {
     }
 
     fun create(beautyStore : BeautyStoreModel) {
+        beautyStore.validate()
+
         beautyStore.id = lastId.incrementAndGet()
         beautyStores.add(beautyStore)
 
@@ -25,6 +27,9 @@ class BeautyStoreMemStore {
 
     // Find a store by its ID and update its details if it exists
     fun update(beautyStore: BeautyStoreModel): Boolean {
+
+        beautyStore.validate()
+
         val foundStore = findOne(beautyStore.id)
         return if (foundStore != null) {
             foundStore.title = beautyStore.title
@@ -35,6 +40,7 @@ class BeautyStoreMemStore {
             foundStore.brands = beautyStore.brands
             foundStore.address = beautyStore.address
             foundStore.website = beautyStore.website
+            foundStore.imageUri = beautyStore.imageUri
 
 
             Timber.d("Store updated in memory, id=${beautyStore.id}")

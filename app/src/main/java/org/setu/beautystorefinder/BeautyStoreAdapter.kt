@@ -10,6 +10,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.setu.beautystorefinder.models.BeautyStoreModel
 import timber.log.Timber
+import android.net.Uri
+import android.widget.ImageView
 
 // Displays beauty stores in the RecyclerView and handles Edit/Delete Actions
 class BeautyStoreAdapter(
@@ -20,6 +22,10 @@ class BeautyStoreAdapter(
     // Holds references to the UI elements for each store card
     class StoreViewHolder (itemView: View) :
         RecyclerView.ViewHolder(itemView) {
+
+        val storeImage: ImageView =
+            itemView.findViewById(R.id.storeImage)
+
 
         val titleText: TextView =
             itemView.findViewById(R.id.titleText)
@@ -60,6 +66,17 @@ class BeautyStoreAdapter(
     ) {
 
         val store = stores[position]
+
+        val imageUri = store.imageUri?.let { Uri.parse(it) }
+
+        if (imageUri != null) {
+            holder.storeImage.setImageURI(imageUri)
+        } else {
+            holder.storeImage.setImageResource(
+                android.R.drawable.ic_menu_gallery
+            )
+        }
+
 
         holder.titleText.text =
             //"${store.id}: ${store.title}"
