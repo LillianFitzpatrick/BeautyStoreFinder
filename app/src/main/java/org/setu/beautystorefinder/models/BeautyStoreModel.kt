@@ -15,5 +15,20 @@ data class BeautyStoreModel(
     var category: String = "Drugstore",
     var brands: String= "",
     var address: String= "",
-    var website: String= ""
-)
+    var website: String= "",
+    var imageUri: String? = null
+) {
+    fun validate() {
+        require(title.isNotBlank()) {
+            "Name must not be empty."
+        }
+
+        require(x.isFinite() && x in -90.0..90.0) {
+            "Latitude must be between -90 and 90."
+        }
+
+        require(y.isFinite() && y in -180.0..180.0) {
+            "Longitude must be between -180 and 180."
+        }
+    }
+}

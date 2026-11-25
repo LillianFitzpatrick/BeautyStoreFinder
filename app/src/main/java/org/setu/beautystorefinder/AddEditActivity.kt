@@ -13,6 +13,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.widget.Spinner
 import android.widget.ArrayAdapter
 import timber.log.Timber
+import android.net.Uri
+import android.widget.ImageView
+import androidx.activity.result.contract.ActivityResultContracts
 
 import org.setu.beautystorefinder.models.BeautyStoreModel
 
@@ -32,10 +35,40 @@ class AddEditActivity : AppCompatActivity() {
 
     private var editingId: Long? = null
 
+
+    private lateinit var imagePreview: ImageView
+    private var selectedImageUri: Uri? = null
+
+    private val imagePicker =
+        registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri: Uri? ->
+            if (uri != null) {
+                // Keep access to the document URI for later use, when supported.
+                try {
+                    contentResolver.takePersistableUriPermission(
+                        uri,
+                        android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    )
+                } catch (_: SecurityException) {
+                    // Some providers may not grant persistable access.
+                }
+
+                selectedImageUri = uri
+                imagePreview.setImageURI(uri)
+            }
+        }
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_add_edit)
+
+        imagePreview = findViewById(R.id.imageViewAdd)
+
+        findViewById<Button>(R.id.imagePickButton).setOnClickListener {
+            imagePicker.launch(arrayOf("image/*"))
+        }
 
         titleInput =
             findViewById(R.id.titleInput)
@@ -121,6 +154,15 @@ class AddEditActivity : AppCompatActivity() {
         addressInput.setText(store.address)
         websiteInput.setText(store.website)
 
+        selectedImageUri = store.imageUri?.let { Uri.parse(it) }
+
+        if (selectedImageUri != null) {
+            imagePreview.setImageURI(selectedImageUri)
+        } else {
+            imagePreview.setImageResource(android.R.drawable.ic_menu_gallery)
+        }
+
+
         val categories = resources.getStringArray(R.array.makeup_categories)
 
         val categoryPosition = categories.indexOf(store.category)
@@ -178,6 +220,9 @@ class AddEditActivity : AppCompatActivity() {
         }
 
         // Create a new store or update the existing store
+
+        try{
+
         if (editingId == null) {
 
             val store = BeautyStoreModel(
@@ -188,7 +233,9 @@ class AddEditActivity : AppCompatActivity() {
                 category = category,
                 brands = brands,
                 address = address,
-                website = website
+                website = website,
+                imageUri = selectedImageUri?.toString()
+
             )
 
             AppData.beautyStores.create(store)
@@ -211,7 +258,9 @@ class AddEditActivity : AppCompatActivity() {
                 category = category,
                 brands = brands,
                 address = address,
-                website = website
+                website = website,
+                imageUri = selectedImageUri?.toString()
+
             )
 
             AppData.beautyStores.update(store)
@@ -222,6 +271,14 @@ class AddEditActivity : AppCompatActivity() {
                 "Store updated",
                 Toast.LENGTH_SHORT
             ).show()
+        }
+        } catch (e: IllegalArgumentException) {
+            android.widget.Toast.makeText(
+                this,
+                e.message ?: "Please check the entered values.",
+                android.widget.Toast.LENGTH_LONG
+            ).show()
+            return
         }
 
         finish()
