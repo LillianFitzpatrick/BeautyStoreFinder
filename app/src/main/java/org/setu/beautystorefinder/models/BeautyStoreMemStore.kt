@@ -1,5 +1,6 @@
 package org.setu.beautystorefinder.models
 import java.util.concurrent.atomic.AtomicLong
+import timber.log.Timber
 
 
 // Stores beauty store records in memory while the app is running
@@ -18,6 +19,8 @@ class BeautyStoreMemStore {
     fun create(beautyStore : BeautyStoreModel) {
         beautyStore.id = lastId.incrementAndGet()
         beautyStores.add(beautyStore)
+
+        Timber.d("Store created in memory, id=${beautyStore.id}")
     }
 
     // Find a store by its ID and update its details if it exists
@@ -34,6 +37,9 @@ class BeautyStoreMemStore {
             foundStore.website = beautyStore.website
 
 
+            Timber.d("Store updated in memory, id=${beautyStore.id}")
+
+
             true
         } else {
             false
@@ -45,6 +51,10 @@ class BeautyStoreMemStore {
         val foundStore = findOne(id)
         return if (foundStore != null) {
             beautyStores.remove(foundStore)
+
+            Timber.d("Store deleted from memory, id=$id")
+
+
             true
         } else {
             false

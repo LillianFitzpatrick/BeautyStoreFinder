@@ -9,12 +9,12 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.setu.beautystorefinder.models.BeautyStoreModel
+import timber.log.Timber
 
 // Displays beauty stores in the RecyclerView and handles Edit/Delete Actions
 class BeautyStoreAdapter(
     private var stores: List<BeautyStoreModel>,
-    private val onEdit: (BeautyStoreModel) -> Unit,
-    private val onDelete: (BeautyStoreModel) -> Unit
+    private val listener: OnBeautyStoreListener
 ) : RecyclerView.Adapter<BeautyStoreAdapter.StoreViewHolder>() {
 
     // Holds references to the UI elements for each store card
@@ -30,11 +30,11 @@ class BeautyStoreAdapter(
         val coordinatesText: TextView =
             itemView.findViewById(R.id.coordinatesText)
 
-        val editButton: Button =
-            itemView.findViewById(R.id.editButton)
-
-        val deleteButton: Button =
-            itemView.findViewById(R.id.deleteButton)
+//        val editButton: Button =
+//            itemView.findViewById(R.id.editButton)
+//
+//        val deleteButton: Button =
+//            itemView.findViewById(R.id.deleteButton)
     }
 
     // Creates a new store card using the item_beauty_store layout
@@ -81,12 +81,15 @@ class BeautyStoreAdapter(
         holder.coordinatesText.text =
             "X: ${store.x}, Y: ${store.y}"
 
-        holder.editButton.setOnClickListener {
-            onEdit(store)
+        holder.itemView.setOnClickListener {
+            Timber.d("Clicked beauty store id=${store.id}, title=${store.title}")
+
+            listener.onBeautyStoreClick(store)
         }
 
-        holder.deleteButton.setOnClickListener {
-            onDelete(store)
+        holder.itemView.setOnLongClickListener {
+            Timber.d("Long pressed beauty store id=${store.id}, title=${store.title}")
+            listener.onBeautyStoreLongClick(store)
         }
     }
 
