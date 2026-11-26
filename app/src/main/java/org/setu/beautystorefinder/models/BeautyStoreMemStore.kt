@@ -1,15 +1,48 @@
 package org.setu.beautystorefinder.models
 import java.util.concurrent.atomic.AtomicLong
 import timber.log.Timber
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
+import java.io.File
 
-
-// Stores beauty store records in memory while the app is running
-class BeautyStoreMemStore {
+// Stores beauty store records in memory and persists them to a JSON file
+class BeautyStoreMemStore(private val file: File) {
     private val beautyStores = ArrayList<BeautyStoreModel>()
 
     // Generates a unique ID for each new beauty store
     // I didn't show the IDs visually in my View Stores, as I didn't want it to be viewed as a numbered list
     private val lastId = AtomicLong(0L)
+
+    private val gson = GsonBuilder()
+        .setPrettyPrinting()
+        .create()
+
+    init {
+        load()
+    }
+
+    private fun load() {
+        if (!file.exists()) return
+
+        val type = object : TypeToken<ArrayList<BeautyStoreModel>>() {}.type
+
+        val loaded: ArrayList<BeautyStoreModel> =
+            gson.fromJson(file.readText(), type) ?: arrayListOf()
+
+        beautyStores.clear()
+        beautyStores.addAll(loaded)
+
+        lastId.set(beautyStores.maxOfOrNull { it.id } ?: 0L)
+    }
+
+    private fun save() {
+        file.parentFile?.mkdirs()
+        file.writeText(gson.toJson(beautyStores))
+    }
+
+
+
+
 
 
     fun findAll(): List<BeautyStoreModel> {
@@ -21,6 +54,7 @@ class BeautyStoreMemStore {
 
         beautyStore.id = lastId.incrementAndGet()
         beautyStores.add(beautyStore)
+        save()
 
         Timber.d("Store created in memory, id=${beautyStore.id}")
     }
@@ -41,6 +75,7 @@ class BeautyStoreMemStore {
             foundStore.address = beautyStore.address
             foundStore.website = beautyStore.website
             foundStore.imageUri = beautyStore.imageUri
+            save()
 
 
             Timber.d("Store updated in memory, id=${beautyStore.id}")
@@ -57,6 +92,7 @@ class BeautyStoreMemStore {
         val foundStore = findOne(id)
         return if (foundStore != null) {
             beautyStores.remove(foundStore)
+            save()
 
             Timber.d("Store deleted from memory, id=$id")
 
