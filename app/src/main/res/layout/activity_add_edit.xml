@@ -134,6 +134,14 @@
             android:textColorHint="@color/soft_pink" />
 
         <!-- Buttons for saving changes or cancelling the form -->
+        <Button
+            android:id="@+id/buttonLoc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/rose_pink"
+            android:text="Choose Location"
+            android:textColor="@color/white" />
+
         <ImageView
             android:id="@+id/imageViewAdd"
             android:layout_width="match_parent"
