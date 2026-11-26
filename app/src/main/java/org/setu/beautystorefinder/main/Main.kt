@@ -4,9 +4,9 @@ package org.setu.beautystorefinder.main
 
 import org.setu.beautystorefinder.models.BeautyStoreMemStore
 import org.setu.beautystorefinder.models.BeautyStoreModel
+import java.io.File
 
-
-val store = BeautyStoreMemStore()
+val store = BeautyStoreMemStore(File("beauty_store_console.json"))
 
 fun main() {
     println("=== Beauty Store Finder Console App ===")

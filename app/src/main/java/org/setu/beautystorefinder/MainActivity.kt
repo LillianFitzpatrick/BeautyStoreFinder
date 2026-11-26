@@ -14,6 +14,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        AppData.initialize(this)
+
         Timber.plant(Timber.DebugTree())
 
         enableEdgeToEdge()
