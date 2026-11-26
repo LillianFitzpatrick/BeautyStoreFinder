@@ -16,6 +16,7 @@ import timber.log.Timber
 import android.net.Uri
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
+import android.content.Intent
 
 import org.setu.beautystorefinder.models.BeautyStoreModel
 
@@ -34,6 +35,9 @@ class AddEditActivity : AppCompatActivity() {
     private lateinit var websiteInput: EditText
 
     private var editingId: Long? = null
+
+    private var selectedLatitude: Double? = null
+    private var selectedLongitude: Double? = null
 
 
     private lateinit var imagePreview: ImageView
@@ -81,6 +85,44 @@ class AddEditActivity : AppCompatActivity() {
 
         yInput =
             findViewById(R.id.yInput)
+
+
+        val mapPicker =
+            registerForActivityResult(
+                ActivityResultContracts.StartActivityForResult()
+            ) { result ->
+                if (result.resultCode == RESULT_OK) {
+                    val data = result.data ?: return@registerForActivityResult
+                    selectedLatitude = data.getDoubleExtra("latitude", 0.0)
+                    selectedLongitude = data.getDoubleExtra("longitude", 0.0)
+
+                    selectedLatitude?.let {
+                        xInput.setText(it.toString())
+                    }
+
+                    selectedLongitude?.let {
+                        yInput.setText(it.toString())
+                    }
+                }
+            }
+
+        findViewById<Button>(R.id.buttonLoc).setOnClickListener {
+            val intent = Intent(this, MapPickerActivity::class.java)
+
+
+            val latitude = xInput.text.toString().toDoubleOrNull()
+            val longitude = yInput.text.toString().toDoubleOrNull()
+
+            if(latitude !=null && longitude !=null){
+                intent.putExtra("latitude", latitude)
+                intent.putExtra("longitude", longitude)
+            }
+
+
+            mapPicker.launch(intent)
+        }
+
+
 
         brandsInput = findViewById(R.id.brandsInput)
         addressInput = findViewById(R.id.addressInput)
